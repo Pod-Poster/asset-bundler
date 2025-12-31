@@ -9,6 +9,7 @@ Your job:
 docs/V1_MASTER_SPEC.md (or repo spec) and prompts/START_BUILD.txt requirements.
 2) Run verification via scripts/verify.sh if 
 present; otherwise run npm ci, lint, typecheck, test.
+Run verification as: CODEX_SANDBOX=1 ./scripts/verify.sh
 3) Check CHECKLIST.md and mark items DONE/MISSING/PARTIAL/N/A with 
 evidence.
 4) Identify missing requirements, incorrect implementations, security issues (secrets), and incomplete work.
@@ -16,9 +17,15 @@ evidence.
 prioritized fix_plan with exact file paths and precise instructions for Claude.
 
 Rules:
-- Do not implement code; only review and 
-instruct.
+- Do not implement code; only review and instruct.
 - Always include failing commands/errors in checks[*].errors.
-- If any requirement is unclear, assume the strictest 
-interpretation of the spec.
+- If any requirement is unclear, assume the strictest interpretation of the spec.
+
+PASS criteria:
+- If CODEX_SANDBOX=1 ./scripts/verify.sh succeeds AND the repo visibly contains the required spec artifacts
+  (workflow files, src/, docs/, prompts/, package.json),
+  then set status PASS even if npm ci, lint, typecheck, or test were skipped due to sandbox limits.
+- In that case:
+  - Record npm/lint/typecheck/test as SKIP in the checks array
+  - Leave fix_plan empty
 

@@ -27,13 +27,10 @@ function isJobArray(data: unknown): data is Job[] {
   );
 }
 
-function isWrappedJobResponse(data: unknown): data is { jobs: Job[] } {
-  return (
-    typeof data === "object" &&
-    data !== null &&
-    "jobs" in data &&
-    isJobArray((data as { jobs: unknown }).jobs)
-  );
+function isWrappedJobResponse(x: unknown): x is { jobs?: Job[]; data?: Job[] } {
+  if (!x || typeof x !== "object") return false;
+  const obj = x as Record<string, unknown>;
+  return isJobArray(obj.jobs) || isJobArray(obj.data);
 }
 
 async function fetchJobs(baseUrl: string, workerToken: string): Promise<Job[]> {
@@ -59,7 +56,7 @@ async function fetchJobs(baseUrl: string, workerToken: string): Promise<Job[]> {
   }
 
   if (isWrappedJobResponse(data)) {
-    return data.jobs;
+    return (data.jobs ?? data.data) as Job[];
   }
 
   throw new Error("Invalid job response: expected an array of jobs or { jobs: Job[] }");

@@ -10,8 +10,12 @@ interface Job {
 }
 
 interface CallbackPayload {
-  bundle_prefix: string;
-  manifest_json: Manifest;
+  success: boolean;
+  result?: {
+    bundle_prefix: string;
+    manifest: Manifest;
+  };
+  error?: string;
 }
 
 function isJobArray(data: unknown): data is Job[] {
@@ -119,8 +123,11 @@ async function processJob(job: Job, workerToken: string): Promise<void> {
   // Send callback
   console.log("Sending completion callback...");
   await sendCallback(job.callback_complete_url, workerToken, {
-    bundle_prefix: job.upload_prefix,
-    manifest_json: manifest,
+    success: true,
+    result: {
+      bundle_prefix: job.upload_prefix,
+      manifest: manifest,
+    },
   });
 
   console.log(`Job ${job.job_id} completed successfully`);
@@ -151,8 +158,23 @@ async function main(): Promise<void> {
   for (const job of jobs) {
     try {
       await processJob(job, workerToken);
+
+      // ✅ tell core success
+      await sendCallback(job.callback_complete_url, workerToken, {
+        success: true,
+        result: {
+          bundle_prefix: job.upload_prefix,
+        },
+      });
+
     } catch (error) {
-      console.error(`Failed to process job ${job.job_id}:`, error instanceof Error ? error.message : error);
+      console.error(`Failed to process job ${job.job_id}:`, error);
+
+      // ❌ tell core failure
+      await sendCallback(job.callback_complete_url, workerToken, {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      });
     }
   }
 

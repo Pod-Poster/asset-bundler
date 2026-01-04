@@ -158,23 +158,18 @@ async function main(): Promise<void> {
   for (const job of jobs) {
     try {
       await processJob(job, workerToken);
-
-      // ✅ tell core success
-      await sendCallback(job.callback_complete_url, workerToken, {
-        success: true,
-        result: {
-          bundle_prefix: job.upload_prefix,
-        },
-      });
-
     } catch (error) {
       console.error(`Failed to process job ${job.job_id}:`, error);
 
-      // ❌ tell core failure
-      await sendCallback(job.callback_complete_url, workerToken, {
-        success: false,
-        error: error instanceof Error ? error.message : "Unknown error",
-      });
+      // ❌ tell core failure (don't let callback failure crash the worker)
+      try {
+        await sendCallback(job.callback_complete_url, workerToken, {
+          success: false,
+          error: error instanceof Error ? error.message : "Unknown error",
+        });
+      } catch (callbackError) {
+        console.error(`Failed to send failure callback for job ${job.job_id}:`, callbackError);
+      }
     }
   }
 

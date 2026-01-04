@@ -1,0 +1,28 @@
+You are Claude. Implement a small fix in this repo (asset-bundler).
+
+Goal:
+Fix the success callback to Core (/jobs/:id/complete) so it includes manifest in result.
+
+Requirements:
+1) File: src/worker.ts
+   Find where manifest is created (generateManifest(outputs)).
+   Ensure the success callback payload includes:
+   {
+     success: true,
+     result: { bundle_prefix: job.upload_prefix, manifest }
+   }
+
+2) Also send a failure callback (recommended):
+   {
+     success: false,
+     error: <string>
+   }
+   Do not let callback failures crash the whole worker.
+
+3) The build must pass:
+   npm run build (tsc)
+
+Deliverables:
+- Commit-ready code changes
+- Brief summary of what changed and where
+

@@ -1,0 +1,20 @@
+You are Codex acting as a supervisor/reviewer.
+
+Review this repo after changes and verify:
+
+1) src/worker.ts success callback sends Core completion payload:
+   { success: true, result: { bundle_prefix: string, manifest: Manifest } }
+
+2) Failure path sends:
+   { success: false, error: string }
+
+3) Build passes:
+   npm ci
+   npm run build
+
+4) Workflow file still pinned to SHA and has package-lock.json.
+
+Output:
+- PASS if all checks are satisfied
+- FAIL with exact file paths + exact fix instructions if not
+

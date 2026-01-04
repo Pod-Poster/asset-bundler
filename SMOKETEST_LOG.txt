@@ -1,0 +1,167 @@
+process-images	Set up job	﻿2026-01-04T04:37:47.2333179Z Current runner version: '2.330.0'
+process-images	Set up job	2026-01-04T04:37:47.2357500Z ##[group]Runner Image Provisioner
+process-images	Set up job	2026-01-04T04:37:47.2358496Z Hosted Compute Agent
+process-images	Set up job	2026-01-04T04:37:47.2359094Z Version: 20251211.462
+process-images	Set up job	2026-01-04T04:37:47.2359794Z Commit: 6cbad8c2bb55d58165063d031ccabf57e2d2db61
+process-images	Set up job	2026-01-04T04:37:47.2360528Z Build Date: 2025-12-11T16:28:49Z
+process-images	Set up job	2026-01-04T04:37:47.2361243Z Worker ID: {0a9273f2-3a68-4e9d-9b03-fb1af17c839d}
+process-images	Set up job	2026-01-04T04:37:47.2362015Z ##[endgroup]
+process-images	Set up job	2026-01-04T04:37:47.2362574Z ##[group]Operating System
+process-images	Set up job	2026-01-04T04:37:47.2363145Z Ubuntu
+process-images	Set up job	2026-01-04T04:37:47.2363742Z 24.04.3
+process-images	Set up job	2026-01-04T04:37:47.2364276Z LTS
+process-images	Set up job	2026-01-04T04:37:47.2364809Z ##[endgroup]
+process-images	Set up job	2026-01-04T04:37:47.2365364Z ##[group]Runner Image
+process-images	Set up job	2026-01-04T04:37:47.2365949Z Image: ubuntu-24.04
+process-images	Set up job	2026-01-04T04:37:47.2366690Z Version: 20251215.174.1
+process-images	Set up job	2026-01-04T04:37:47.2367798Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20251215.174/images/ubuntu/Ubuntu2404-Readme.md
+process-images	Set up job	2026-01-04T04:37:47.2369266Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20251215.174
+process-images	Set up job	2026-01-04T04:37:47.2370541Z ##[endgroup]
+process-images	Set up job	2026-01-04T04:37:47.2371757Z ##[group]GITHUB_TOKEN Permissions
+process-images	Set up job	2026-01-04T04:37:47.2373837Z Contents: read
+process-images	Set up job	2026-01-04T04:37:47.2374512Z Metadata: read
+process-images	Set up job	2026-01-04T04:37:47.2375087Z Packages: read
+process-images	Set up job	2026-01-04T04:37:47.2375640Z ##[endgroup]
+process-images	Set up job	2026-01-04T04:37:47.2378096Z Secret source: Actions
+process-images	Set up job	2026-01-04T04:37:47.2378925Z Prepare workflow directory
+process-images	Set up job	2026-01-04T04:37:47.2883317Z Prepare all required actions
+process-images	Set up job	2026-01-04T04:37:47.2921003Z Getting action download info
+process-images	Set up job	2026-01-04T04:37:47.6771655Z Download action repository 'actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+process-images	Set up job	2026-01-04T04:37:47.7712179Z Download action repository 'actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+process-images	Set up job	2026-01-04T04:37:47.9811781Z Complete job name: process-images
+process-images	Checkout repository	﻿2026-01-04T04:37:48.0731784Z ##[group]Run actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+process-images	Checkout repository	2026-01-04T04:37:48.0732855Z with:
+process-images	Checkout repository	2026-01-04T04:37:48.0733335Z   repository: Pod-Poster/asset-bundler
+process-images	Checkout repository	2026-01-04T04:37:48.0734050Z   token: ***
+process-images	Checkout repository	2026-01-04T04:37:48.0734476Z   ssh-strict: true
+process-images	Checkout repository	2026-01-04T04:37:48.0734909Z   ssh-user: git
+process-images	Checkout repository	2026-01-04T04:37:48.0735357Z   persist-credentials: true
+process-images	Checkout repository	2026-01-04T04:37:48.0735836Z   clean: true
+process-images	Checkout repository	2026-01-04T04:37:48.0736285Z   sparse-checkout-cone-mode: true
+process-images	Checkout repository	2026-01-04T04:37:48.0736968Z   fetch-depth: 1
+process-images	Checkout repository	2026-01-04T04:37:48.0737399Z   fetch-tags: false
+process-images	Checkout repository	2026-01-04T04:37:48.0737856Z   show-progress: true
+process-images	Checkout repository	2026-01-04T04:37:48.0738305Z   lfs: false
+process-images	Checkout repository	2026-01-04T04:37:48.0738721Z   submodules: false
+process-images	Checkout repository	2026-01-04T04:37:48.0739176Z   set-safe-directory: true
+process-images	Checkout repository	2026-01-04T04:37:48.0739902Z ##[endgroup]
+process-images	Checkout repository	2026-01-04T04:37:48.1807481Z Syncing repository: Pod-Poster/asset-bundler
+process-images	Checkout repository	2026-01-04T04:37:48.1809339Z ##[group]Getting Git version info
+process-images	Checkout repository	2026-01-04T04:37:48.1810145Z Working directory is '/home/runner/work/asset-bundler/asset-bundler'
+process-images	Checkout repository	2026-01-04T04:37:48.1811297Z [command]/usr/bin/git version
+process-images	Checkout repository	2026-01-04T04:37:48.1930248Z git version 2.52.0
+process-images	Checkout repository	2026-01-04T04:37:48.1955863Z ##[endgroup]
+process-images	Checkout repository	2026-01-04T04:37:48.1969703Z Temporarily overriding HOME='/home/runner/work/_temp/61121d83-eb8b-4489-b5f5-824c4acd6f93' before making global git config changes
+process-images	Checkout repository	2026-01-04T04:37:48.1971121Z Adding repository directory to the temporary git global config as a safe directory
+process-images	Checkout repository	2026-01-04T04:37:48.1982830Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/asset-bundler/asset-bundler
+process-images	Checkout repository	2026-01-04T04:37:48.2022374Z Deleting the contents of '/home/runner/work/asset-bundler/asset-bundler'
+process-images	Checkout repository	2026-01-04T04:37:48.2025704Z ##[group]Initializing the repository
+process-images	Checkout repository	2026-01-04T04:37:48.2031844Z [command]/usr/bin/git init /home/runner/work/asset-bundler/asset-bundler
+process-images	Checkout repository	2026-01-04T04:37:48.2189505Z hint: Using 'master' as the name for the initial branch. This default branch name
+process-images	Checkout repository	2026-01-04T04:37:48.2190953Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+process-images	Checkout repository	2026-01-04T04:37:48.2192245Z hint: to use in all of your new repositories, which will suppress this warning,
+process-images	Checkout repository	2026-01-04T04:37:48.2193075Z hint: call:
+process-images	Checkout repository	2026-01-04T04:37:48.2193787Z hint:
+process-images	Checkout repository	2026-01-04T04:37:48.2194649Z hint: 	git config --global init.defaultBranch <name>
+process-images	Checkout repository	2026-01-04T04:37:48.2195480Z hint:
+process-images	Checkout repository	2026-01-04T04:37:48.2196722Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+process-images	Checkout repository	2026-01-04T04:37:48.2198446Z hint: 'development'. The just-created branch can be renamed via this command:
+process-images	Checkout repository	2026-01-04T04:37:48.2199804Z hint:
+process-images	Checkout repository	2026-01-04T04:37:48.2200602Z hint: 	git branch -m <name>
+process-images	Checkout repository	2026-01-04T04:37:48.2201495Z hint:
+process-images	Checkout repository	2026-01-04T04:37:48.2202581Z hint: Disable this message with "git config set advice.defaultBranchName false"
+process-images	Checkout repository	2026-01-04T04:37:48.2204421Z Initialized empty Git repository in /home/runner/work/asset-bundler/asset-bundler/.git/
+process-images	Checkout repository	2026-01-04T04:37:48.2207989Z [command]/usr/bin/git remote add origin https://github.com/Pod-Poster/asset-bundler
+process-images	Checkout repository	2026-01-04T04:37:48.2246911Z ##[endgroup]
+process-images	Checkout repository	2026-01-04T04:37:48.2248257Z ##[group]Disabling automatic garbage collection
+process-images	Checkout repository	2026-01-04T04:37:48.2251780Z [command]/usr/bin/git config --local gc.auto 0
+process-images	Checkout repository	2026-01-04T04:37:48.2280019Z ##[endgroup]
+process-images	Checkout repository	2026-01-04T04:37:48.2281349Z ##[group]Setting up auth
+process-images	Checkout repository	2026-01-04T04:37:48.2287548Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+process-images	Checkout repository	2026-01-04T04:37:48.2318186Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+process-images	Checkout repository	2026-01-04T04:37:48.2721848Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+process-images	Checkout repository	2026-01-04T04:37:48.2752301Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+process-images	Checkout repository	2026-01-04T04:37:48.2987117Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+process-images	Checkout repository	2026-01-04T04:37:48.3017899Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+process-images	Checkout repository	2026-01-04T04:37:48.3264513Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+process-images	Checkout repository	2026-01-04T04:37:48.3302197Z ##[endgroup]
+process-images	Checkout repository	2026-01-04T04:37:48.3303030Z ##[group]Fetching the repository
+process-images	Checkout repository	2026-01-04T04:37:48.3310900Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +91b64682964c0d92ffe5e930d733d85788b73400:refs/remotes/origin/main
+process-images	Checkout repository	2026-01-04T04:37:48.7309156Z From https://github.com/Pod-Poster/asset-bundler
+process-images	Checkout repository	2026-01-04T04:37:48.7310540Z  * [new ref]         91b64682964c0d92ffe5e930d733d85788b73400 -> origin/main
+process-images	Checkout repository	2026-01-04T04:37:48.7344684Z ##[endgroup]
+process-images	Checkout repository	2026-01-04T04:37:48.7347610Z ##[group]Determining the checkout info
+process-images	Checkout repository	2026-01-04T04:37:48.7348971Z ##[endgroup]
+process-images	Checkout repository	2026-01-04T04:37:48.7352385Z [command]/usr/bin/git sparse-checkout disable
+process-images	Checkout repository	2026-01-04T04:37:48.7391778Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+process-images	Checkout repository	2026-01-04T04:37:48.7416195Z ##[group]Checking out the ref
+process-images	Checkout repository	2026-01-04T04:37:48.7419834Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+process-images	Checkout repository	2026-01-04T04:37:48.7481451Z Switched to a new branch 'main'
+process-images	Checkout repository	2026-01-04T04:37:48.7484317Z branch 'main' set up to track 'origin/main'.
+process-images	Checkout repository	2026-01-04T04:37:48.7490871Z ##[endgroup]
+process-images	Checkout repository	2026-01-04T04:37:48.7522481Z [command]/usr/bin/git log -1 --format=%H
+process-images	Checkout repository	2026-01-04T04:37:48.7543755Z 91b64682964c0d92ffe5e930d733d85788b73400
+process-images	Setup Node.js	﻿2026-01-04T04:37:48.7785679Z ##[group]Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+process-images	Setup Node.js	2026-01-04T04:37:48.7786419Z with:
+process-images	Setup Node.js	2026-01-04T04:37:48.7787011Z   node-version: 20
+process-images	Setup Node.js	2026-01-04T04:37:48.7787437Z   cache: npm
+process-images	Setup Node.js	2026-01-04T04:37:48.7787839Z   always-auth: false
+process-images	Setup Node.js	2026-01-04T04:37:48.7788281Z   check-latest: false
+process-images	Setup Node.js	2026-01-04T04:37:48.7788862Z   token: ***
+process-images	Setup Node.js	2026-01-04T04:37:48.7789269Z ##[endgroup]
+process-images	Setup Node.js	2026-01-04T04:37:48.9558407Z Found in cache @ /opt/hostedtoolcache/node/20.19.6/x64
+process-images	Setup Node.js	2026-01-04T04:37:48.9565832Z ##[group]Environment details
+process-images	Setup Node.js	2026-01-04T04:37:49.3585992Z node: v20.19.6
+process-images	Setup Node.js	2026-01-04T04:37:49.3586977Z npm: 10.8.2
+process-images	Setup Node.js	2026-01-04T04:37:49.3587527Z yarn: 1.22.22
+process-images	Setup Node.js	2026-01-04T04:37:49.3588713Z ##[endgroup]
+process-images	Setup Node.js	2026-01-04T04:37:49.3610072Z [command]/opt/hostedtoolcache/node/20.19.6/x64/bin/npm config get cache
+process-images	Setup Node.js	2026-01-04T04:37:49.5069964Z /home/runner/.npm
+process-images	Setup Node.js	2026-01-04T04:37:49.9724600Z Cache hit for: node-cache-Linux-x64-npm-4601d3f7dfb397fe6cc1ec592ffa8944eeac64e414c539e7122c45de123e0762
+process-images	Setup Node.js	2026-01-04T04:37:51.0996414Z Received 24688918 of 24688918 (100.0%), 26.2 MBs/sec
+process-images	Setup Node.js	2026-01-04T04:37:51.0998852Z Cache Size: ~24 MB (24688918 B)
+process-images	Setup Node.js	2026-01-04T04:37:51.1026428Z [command]/usr/bin/tar -xf /home/runner/work/_temp/e9cd5869-f3c7-40e0-9079-6578669c683a/cache.tzst -P -C /home/runner/work/asset-bundler/asset-bundler --use-compress-program unzstd
+process-images	Setup Node.js	2026-01-04T04:37:51.1858468Z Cache restored successfully
+process-images	Setup Node.js	2026-01-04T04:37:51.1911056Z Cache restored from key: node-cache-Linux-x64-npm-4601d3f7dfb397fe6cc1ec592ffa8944eeac64e414c539e7122c45de123e0762
+process-images	Install dependencies	﻿2026-01-04T04:37:51.2069762Z ##[group]Run npm ci
+process-images	Install dependencies	2026-01-04T04:37:51.2070114Z [36;1mnpm ci[0m
+process-images	Install dependencies	2026-01-04T04:37:51.2115240Z shell: /usr/bin/bash -e {0}
+process-images	Install dependencies	2026-01-04T04:37:51.2115543Z ##[endgroup]
+process-images	Install dependencies	2026-01-04T04:37:54.1361385Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+process-images	Install dependencies	2026-01-04T04:37:54.3175068Z npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead
+process-images	Install dependencies	2026-01-04T04:37:54.3245217Z npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+process-images	Install dependencies	2026-01-04T04:37:54.3857273Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+process-images	Install dependencies	2026-01-04T04:37:54.3858992Z npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
+process-images	Install dependencies	2026-01-04T04:37:55.1462994Z npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+process-images	Install dependencies	2026-01-04T04:37:55.4667103Z 
+process-images	Install dependencies	2026-01-04T04:37:55.4668332Z added 251 packages, and audited 252 packages in 4s
+process-images	Install dependencies	2026-01-04T04:37:55.4670985Z 
+process-images	Install dependencies	2026-01-04T04:37:55.4675237Z 42 packages are looking for funding
+process-images	Install dependencies	2026-01-04T04:37:55.4675856Z   run `npm fund` for details
+process-images	Install dependencies	2026-01-04T04:37:55.4680295Z 
+process-images	Install dependencies	2026-01-04T04:37:55.4680804Z found 0 vulnerabilities
+process-images	Build	﻿2026-01-04T04:37:55.4937288Z ##[group]Run npm run build
+process-images	Build	2026-01-04T04:37:55.4937781Z [36;1mnpm run build[0m
+process-images	Build	2026-01-04T04:37:55.4982520Z shell: /usr/bin/bash -e {0}
+process-images	Build	2026-01-04T04:37:55.4982934Z ##[endgroup]
+process-images	Build	2026-01-04T04:37:55.6187839Z 
+process-images	Build	2026-01-04T04:37:55.6188180Z > asset-bundler@1.0.0 build
+process-images	Build	2026-01-04T04:37:55.6188641Z > tsc
+process-images	Build	2026-01-04T04:37:55.6188824Z 
+process-images	Build	2026-01-04T04:37:57.1740506Z ##[error]src/worker.ts(165,9): error TS2741: Property 'manifest' is missing in type '{ bundle_prefix: string; }' but required in type '{ bundle_prefix: string; manifest: Manifest; }'.
+process-images	Build	2026-01-04T04:37:57.2035280Z ##[error]Process completed with exit code 2.
+process-images	Post Checkout repository	﻿2026-01-04T04:37:57.2145461Z Post job cleanup.
+process-images	Post Checkout repository	2026-01-04T04:37:57.3085513Z [command]/usr/bin/git version
+process-images	Post Checkout repository	2026-01-04T04:37:57.3126743Z git version 2.52.0
+process-images	Post Checkout repository	2026-01-04T04:37:57.3170845Z Temporarily overriding HOME='/home/runner/work/_temp/b9620c7d-f295-459d-86e4-c073190d65aa' before making global git config changes
+process-images	Post Checkout repository	2026-01-04T04:37:57.3172416Z Adding repository directory to the temporary git global config as a safe directory
+process-images	Post Checkout repository	2026-01-04T04:37:57.3177108Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/asset-bundler/asset-bundler
+process-images	Post Checkout repository	2026-01-04T04:37:57.3212555Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+process-images	Post Checkout repository	2026-01-04T04:37:57.3245983Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+process-images	Post Checkout repository	2026-01-04T04:37:57.3482547Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+process-images	Post Checkout repository	2026-01-04T04:37:57.3503045Z http.https://github.com/.extraheader
+process-images	Post Checkout repository	2026-01-04T04:37:57.3517419Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+process-images	Post Checkout repository	2026-01-04T04:37:57.3548554Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+process-images	Post Checkout repository	2026-01-04T04:37:57.3775693Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+process-images	Post Checkout repository	2026-01-04T04:37:57.3807019Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+process-images	Complete job	﻿2026-01-04T04:37:57.4142672Z Cleaning up orphan processes

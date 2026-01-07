@@ -8,3 +8,10 @@ dist/
 .playwright/
 storage/
 .supervisor/
+
+# local artifacts
+.supervisor/
+node_modules/
+*.zip
+
+docs/*.bak_*

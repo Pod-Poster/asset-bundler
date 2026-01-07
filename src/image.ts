@@ -27,7 +27,35 @@ const TRANSFORM_SPECS: TransformSpec[] = [
 export async function downloadImage(url: string): Promise<Buffer> {
   const response = await fetch(url);
   if (!response.ok) {
-    throw new Error(`Failed to download image: ${response.status} ${response.statusText}`);
+    let details = "";
+    try {
+      const text = await response.text();
+      if (text) {
+        details = ` - ${text.slice(0, 200)}`;
+      }
+    } catch {
+      // ignore body parsing failures
+    }
+
+    // Log actionable diagnostics for signed URL failures (400/403)
+    if (response.status === 400 || response.status === 403) {
+      try {
+        const parsed = new URL(url);
+        const expParam = parsed.searchParams.get("exp");
+        const nowUtc = new Date().toISOString();
+        const expInfo = expParam
+          ? `exp=${expParam} (${new Date(parseInt(expParam, 10) * 1000).toISOString()})`
+          : "exp=missing";
+        console.error(
+          `[SignedDownloadFailed] status=${response.status} path=${parsed.pathname} ${expInfo} now=${nowUtc}`
+        );
+      } catch {
+        // URL parse failed; still log basic info
+        console.error(`[SignedDownloadFailed] status=${response.status} url_parse_error`);
+      }
+    }
+
+    throw new Error(`Failed to download image: ${response.status} ${response.statusText}${details}`);
   }
   const arrayBuffer = await response.arrayBuffer();
   return Buffer.from(arrayBuffer);

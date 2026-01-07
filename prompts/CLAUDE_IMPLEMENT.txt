@@ -1,4 +1,5 @@
 You are Claude. Implement a small fix in this repo (asset-bundler).
+Do not modify docs/SMOKETEST_LOG.md if it already contains Status: PASS.
 
 Goal:
 Fix the success callback to Core (/jobs/:id/complete) so it includes manifest in result.

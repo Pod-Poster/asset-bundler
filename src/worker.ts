@@ -31,10 +31,31 @@ function isJobArray(data: unknown): data is Job[] {
   );
 }
 
-function isWrappedJobResponse(x: unknown): x is { jobs?: Job[]; data?: Job[] } {
+function isJobResponse(x: unknown): x is { data: Job[] } {
   if (!x || typeof x !== "object") return false;
   const obj = x as Record<string, unknown>;
-  return isJobArray(obj.jobs) || isJobArray(obj.data);
+  return isJobArray(obj.data);
+}
+
+function assertSignedDownloadUrl(url: string): void {
+  let parsed: URL;
+  try {
+    parsed = new URL(url);
+  } catch {
+    throw new Error(`Invalid source_download_url: ${url}`);
+  }
+
+  if (!parsed.pathname.endsWith("/assets/download")) {
+    throw new Error(`Unsigned source_download_url (unexpected path): ${url}`);
+  }
+
+  const key = parsed.searchParams.get("key");
+  const exp = parsed.searchParams.get("exp");
+  const sig = parsed.searchParams.get("sig");
+
+  if (!key || !exp || !sig) {
+    throw new Error(`Unsigned source_download_url (missing sig/exp/key): ${url}`);
+  }
 }
 
 async function fetchJobs(baseUrl: string, workerToken: string): Promise<Job[]> {
@@ -49,21 +70,25 @@ async function fetchJobs(baseUrl: string, workerToken: string): Promise<Job[]> {
   });
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch jobs: ${response.status} ${response.statusText}`);
+    let details = "";
+    try {
+      const text = await response.text();
+      if (text) {
+        details = ` - ${text.slice(0, 200)}`;
+      }
+    } catch {
+      // ignore body parsing failures
+    }
+    throw new Error(`Failed to fetch jobs: ${response.status} ${response.statusText}${details}`);
   }
 
   const data: unknown = await response.json();
 
-  // Support both top-level array and wrapped { jobs: [] } response shapes
-  if (isJobArray(data)) {
-    return data;
+  if (isJobResponse(data)) {
+    return data.data;
   }
 
-  if (isWrappedJobResponse(data)) {
-    return (data.jobs ?? data.data) as Job[];
-  }
-
-  throw new Error("Invalid job response: expected an array of jobs or { jobs: Job[] }");
+  throw new Error("Invalid job response: expected { data: Job[] }");
 }
 
 async function sendCallback(
@@ -90,6 +115,7 @@ async function processJob(job: Job, workerToken: string): Promise<void> {
 
   // Download source image
   console.log("Downloading source image...");
+  assertSignedDownloadUrl(job.source_download_url);
   const sourceBuffer = await downloadImage(job.source_download_url);
 
   // Transform image

@@ -7,6 +7,13 @@ Rules:
 - Implement ONLY what the fix_plan instructs.
 - Make minimal changes; no refactors unless required.
 - Keep contracts stable unless fix_plan explicitly changes them.
+- Before coding, read and follow:
+  - ../docs/ARCHITECTURE_CONVENTIONS.md
+- ALLOWED FILES: Edit only the exact files listed in fix_plan.files. If a file is not listed, do not touch it.
+- If fix_plan targets another repo, STOP and report that you cannot proceed.
+- Do not invent new tables, endpoints, or files beyond fix_plan scope.
+- Do not edit other repos or create cross-repo folders.
+- Do not update handoff/status docs unless fix_plan explicitly requires it.
 - After edits, run the retest commands from fix_plan when feasible.
 - If retest not feasible (network), update docs with manual retest steps; do not mark tasks as done without evidence.
 

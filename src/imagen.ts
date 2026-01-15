@@ -35,15 +35,21 @@ export async function generateImage(
   prompt: string,
   aspectRatio: string = '1:1'
 ): Promise<GenerateImageResult> {
-  // Google AI Studio endpoint for Imagen
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${config.model}:generateImages?key=${config.apiKey}`;
+  // Google AI Studio endpoint for Imagen (using :predict endpoint)
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${config.model}:predict?key=${config.apiKey}`;
 
   const requestBody = {
-    prompt: prompt,
-    config: {
-      numberOfImages: 1,
+    instances: [
+      {
+        prompt: prompt,
+      },
+    ],
+    parameters: {
+      sampleCount: 1,
       aspectRatio: aspectRatio,
-      outputMimeType: 'image/png',
+      outputOptions: {
+        mimeType: 'image/png',
+      },
     },
   };
 

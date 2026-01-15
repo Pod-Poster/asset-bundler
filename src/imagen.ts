@@ -11,6 +11,11 @@ export interface GenerateImageResult {
 }
 
 interface ImagenResponse {
+  generatedImages?: Array<{
+    image?: {
+      imageBytes?: string;
+    };
+  }>;
   predictions?: Array<{
     bytesBase64Encoded?: string;
     mimeType?: string;
@@ -23,27 +28,22 @@ interface ImagenResponse {
 }
 
 /**
- * Generate an image using Google's Imagen API
+ * Generate an image using Google's Imagen API (Google AI Studio)
  */
 export async function generateImage(
   config: ImagenConfig,
   prompt: string,
   aspectRatio: string = '1:1'
 ): Promise<GenerateImageResult> {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${config.model}:predict?key=${config.apiKey}`;
+  // Google AI Studio endpoint for Imagen
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${config.model}:generateImages?key=${config.apiKey}`;
 
   const requestBody = {
-    instances: [
-      {
-        prompt: prompt,
-      },
-    ],
-    parameters: {
-      sampleCount: 1,
+    prompt: prompt,
+    config: {
+      numberOfImages: 1,
       aspectRatio: aspectRatio,
-      outputOptions: {
-        mimeType: 'image/png',
-      },
+      outputMimeType: 'image/png',
     },
   };
 
@@ -76,25 +76,34 @@ export async function generateImage(
     throw new Error(`Imagen API error: ${data.error.message} (${data.error.status})`);
   }
 
-  if (!data.predictions || data.predictions.length === 0) {
-    throw new Error('Imagen API returned no predictions');
+  // Handle Google AI Studio response format
+  if (data.generatedImages && data.generatedImages.length > 0) {
+    const generated = data.generatedImages[0];
+    if (generated.image?.imageBytes) {
+      const imageBuffer = Buffer.from(generated.image.imageBytes, 'base64');
+      console.log(`Generated image: ${imageBuffer.length} bytes`);
+      return {
+        imageData: imageBuffer,
+        mimeType: 'image/png',
+      };
+    }
   }
 
-  const prediction = data.predictions[0];
-
-  if (!prediction.bytesBase64Encoded) {
-    throw new Error('Imagen API returned no image data');
+  // Fallback: Handle Vertex AI response format (predictions)
+  if (data.predictions && data.predictions.length > 0) {
+    const prediction = data.predictions[0];
+    if (prediction.bytesBase64Encoded) {
+      const imageBuffer = Buffer.from(prediction.bytesBase64Encoded, 'base64');
+      const mimeType = prediction.mimeType || 'image/png';
+      console.log(`Generated image: ${imageBuffer.length} bytes, ${mimeType}`);
+      return {
+        imageData: imageBuffer,
+        mimeType,
+      };
+    }
   }
 
-  const imageBuffer = Buffer.from(prediction.bytesBase64Encoded, 'base64');
-  const mimeType = prediction.mimeType || 'image/png';
-
-  console.log(`Generated image: ${imageBuffer.length} bytes, ${mimeType}`);
-
-  return {
-    imageData: imageBuffer,
-    mimeType,
-  };
+  throw new Error('Imagen API returned no image data');
 }
 
 /**

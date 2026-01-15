@@ -1,3 +1,6 @@
+// Asset Bundler Worker - IMAGE_PROCESS and AI_GENERATE jobs
+// Note: AI_GENERATE temporarily restored due to CF Worker-to-Worker limitations
+
 import { downloadImage, transformImage, generateManifest, type ImageOutput, type Manifest } from "./image.js";
 import { createR2Client, uploadToR2, getR2ConfigFromEnv, type UploadFile } from "./r2.js";
 import { generateImage, getImagenConfigFromEnv } from "./imagen.js";
@@ -135,7 +138,6 @@ async function fetchImageProcessJobs(baseUrl: string, workerToken: string): Prom
     return data.data;
   }
 
-  // Empty array is valid
   const dataObj = data as Record<string, unknown>;
   if (dataObj && typeof dataObj === 'object' && Array.isArray(dataObj.data) && (dataObj.data as unknown[]).length === 0) {
     return [];
@@ -174,7 +176,6 @@ async function fetchAIGenerateJobs(baseUrl: string, workerToken: string): Promis
     return data.data;
   }
 
-  // Empty array is valid
   const dataObj = data as Record<string, unknown>;
   if (dataObj && typeof dataObj === 'object' && Array.isArray(dataObj.data) && (dataObj.data as unknown[]).length === 0) {
     return [];
@@ -205,26 +206,21 @@ async function sendCallback(
 async function processImageProcessJob(job: ImageProcessJob, workerToken: string): Promise<void> {
   console.log(`Processing IMAGE_PROCESS job: ${job.job_id}`);
 
-  // Download source image
   console.log("Downloading source image...");
   assertSignedDownloadUrl(job.source_download_url);
   const sourceBuffer = await downloadImage(job.source_download_url);
 
-  // Transform image
   console.log("Transforming image...");
   const { outputs } = await transformImage(sourceBuffer);
 
-  // Generate manifest
   const manifest = generateManifest(outputs);
 
-  // Prepare files for upload
   const uploadFiles: UploadFile[] = outputs.map((output: ImageOutput) => ({
     key: output.name,
     buffer: output.buffer,
     contentType: "image/png",
   }));
 
-  // Add manifest to upload files
   const manifestBuffer = Buffer.from(JSON.stringify(manifest, null, 2));
   uploadFiles.push({
     key: "manifest.json",
@@ -232,13 +228,11 @@ async function processImageProcessJob(job: ImageProcessJob, workerToken: string)
     contentType: "application/json",
   });
 
-  // Upload to R2
   console.log("Uploading to R2...");
   const r2Config = getR2ConfigFromEnv();
   const r2Client = createR2Client(r2Config);
   await uploadToR2(r2Client, r2Config.bucket, job.upload_prefix, uploadFiles);
 
-  // Send callback
   console.log("Sending completion callback...");
   await sendCallback(job.callback_complete_url, workerToken, {
     success: true,
@@ -257,18 +251,14 @@ async function processAIGenerateJob(job: AIGenerateJob, workerToken: string): Pr
   console.log(`  Model: ${job.model}`);
   console.log(`  Aspect ratio: ${job.aspect_ratio}`);
 
-  // Get Imagen config
   const imagenConfig = getImagenConfigFromEnv();
-  // Use model from job if specified, otherwise use env default
   if (job.model) {
     imagenConfig.model = job.model;
   }
 
-  // Generate image using Imagen API
   console.log("Calling Google Imagen API...");
   const result = await generateImage(imagenConfig, job.prompt, job.aspect_ratio);
 
-  // Upload to R2
   console.log(`Uploading generated image to R2: ${job.upload_key}`);
   const r2Config = getR2ConfigFromEnv();
   const r2Client = createR2Client(r2Config);
@@ -279,10 +269,8 @@ async function processAIGenerateJob(job: AIGenerateJob, workerToken: string): Pr
     contentType: result.mimeType,
   }];
 
-  // upload_key is the full path, so we use empty prefix
   await uploadToR2(r2Client, r2Config.bucket, '', uploadFiles);
 
-  // Send callback
   console.log("Sending completion callback...");
   await sendCallback(job.callback_complete_url, workerToken, {
     success: true,
@@ -341,7 +329,7 @@ async function main(): Promise<void> {
     console.error("Failed to fetch IMAGE_PROCESS jobs:", error);
   }
 
-  // Process AI_GENERATE jobs (only if GOOGLE_AI_API_KEY is set)
+  // Process AI_GENERATE jobs
   if (process.env.GOOGLE_AI_API_KEY) {
     console.log("\nFetching AI_GENERATE jobs...");
     try {

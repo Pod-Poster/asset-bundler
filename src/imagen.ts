@@ -117,7 +117,8 @@ export async function generateImage(
  */
 export function getImagenConfigFromEnv(): ImagenConfig {
   const apiKey = process.env.GOOGLE_AI_API_KEY;
-  const model = process.env.IMAGEN_MODEL || 'imagen-3.0-generate-002';
+  // imagen-3 not available via Google AI Studio REST API, use imagen-4
+  const model = process.env.IMAGEN_MODEL || 'imagen-4.0-generate-001';
 
   if (!apiKey) {
     throw new Error('GOOGLE_AI_API_KEY environment variable is required for AI_GENERATE jobs');

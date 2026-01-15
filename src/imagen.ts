@@ -1,0 +1,112 @@
+// Google Imagen API integration for AI image generation
+
+export interface ImagenConfig {
+  apiKey: string;
+  model: string;
+}
+
+export interface GenerateImageResult {
+  imageData: Buffer;
+  mimeType: string;
+}
+
+interface ImagenResponse {
+  predictions?: Array<{
+    bytesBase64Encoded?: string;
+    mimeType?: string;
+  }>;
+  error?: {
+    code: number;
+    message: string;
+    status: string;
+  };
+}
+
+/**
+ * Generate an image using Google's Imagen API
+ */
+export async function generateImage(
+  config: ImagenConfig,
+  prompt: string,
+  aspectRatio: string = '1:1'
+): Promise<GenerateImageResult> {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${config.model}:predict?key=${config.apiKey}`;
+
+  const requestBody = {
+    instances: [
+      {
+        prompt: prompt,
+      },
+    ],
+    parameters: {
+      sampleCount: 1,
+      aspectRatio: aspectRatio,
+      outputOptions: {
+        mimeType: 'image/png',
+      },
+    },
+  };
+
+  console.log(`Calling Imagen API with model: ${config.model}`);
+  console.log(`Prompt length: ${prompt.length} characters`);
+  console.log(`Aspect ratio: ${aspectRatio}`);
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(requestBody),
+  });
+
+  if (!response.ok) {
+    let errorDetails = '';
+    try {
+      const errorBody = await response.text();
+      errorDetails = errorBody.slice(0, 500);
+    } catch {
+      // ignore
+    }
+    throw new Error(`Imagen API error: ${response.status} ${response.statusText} - ${errorDetails}`);
+  }
+
+  const data = (await response.json()) as ImagenResponse;
+
+  if (data.error) {
+    throw new Error(`Imagen API error: ${data.error.message} (${data.error.status})`);
+  }
+
+  if (!data.predictions || data.predictions.length === 0) {
+    throw new Error('Imagen API returned no predictions');
+  }
+
+  const prediction = data.predictions[0];
+
+  if (!prediction.bytesBase64Encoded) {
+    throw new Error('Imagen API returned no image data');
+  }
+
+  const imageBuffer = Buffer.from(prediction.bytesBase64Encoded, 'base64');
+  const mimeType = prediction.mimeType || 'image/png';
+
+  console.log(`Generated image: ${imageBuffer.length} bytes, ${mimeType}`);
+
+  return {
+    imageData: imageBuffer,
+    mimeType,
+  };
+}
+
+/**
+ * Get Imagen config from environment variables
+ */
+export function getImagenConfigFromEnv(): ImagenConfig {
+  const apiKey = process.env.GOOGLE_AI_API_KEY;
+  const model = process.env.IMAGEN_MODEL || 'imagen-3.0-generate-001';
+
+  if (!apiKey) {
+    throw new Error('GOOGLE_AI_API_KEY environment variable is required for AI_GENERATE jobs');
+  }
+
+  return { apiKey, model };
+}
